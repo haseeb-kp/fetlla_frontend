@@ -3,6 +3,7 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { setLogout } from '../../../Redux/State';
 
 const MENU_OPTIONS = [
   
@@ -15,16 +16,14 @@ const MENU_OPTIONS = [
 
 
 export default function AccountPopover() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const [open, setOpen] = useState(null);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
-  
-
   
   const handleClose = () => {
     setOpen(null);
@@ -49,7 +48,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        {/* <Avatar src={ } alt="photoURL" /> */}
+        <Avatar  alt="photoURL" />
       </IconButton>
 
       <Popover
@@ -74,19 +73,14 @@ export default function AccountPopover() {
         <Box sx={{ my: 1.5, px: 2.5 }}>
           
           <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} noWrap>
-            {/* {candidateInfo.email} */}email
+            {user.user.email}
           </Typography>
         </Box>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
-        <Stack sx={{ p: 1 }}>
-          <MenuItem >Profile</MenuItem>
-        </Stack>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem  sx={{ m: 1 }}>
+        <MenuItem  sx={{ m: 1 }} onClick={() => dispatch(setLogout())}>
           Logout
         </MenuItem>
       </Popover>

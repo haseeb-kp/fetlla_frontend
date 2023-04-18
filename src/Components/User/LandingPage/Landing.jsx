@@ -21,9 +21,7 @@ const Home = () => {
         <Grid container>
           <Grid item xs={6} sx={{ display: "flex", alignItems: "center" }}>
             <Title>Developing the future, Securing the present</Title>
-            <Button variant="outlined"
-                color="inherit"
-                sx={{ textTransform: "none" }}>Join Us</Button>
+            
           </Grid>
           <Grid item xs={6} sx={{ display: "flex", alignItems: "center" }}>
             <img src={landing} style={{ maxWidth: "100%" }} />

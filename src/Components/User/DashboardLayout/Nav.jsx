@@ -11,29 +11,13 @@ import NavSection from './NavSection';
 
 const navConfig = [
   {
-    title: 'dashboard',
-    path: '/dashboard/app',
+    title: 'home',
+    path: '/dashboard/home',
   },
   {
-    title: 'user',
-    path: '/dashboard/user',
-  },
-  {
-    title: 'product',
-    path: '/dashboard/products',
-  },
-  {
-    title: 'blog',
-    path: '/dashboard/blog',
-  },
-  {
-    title: 'login',
-    path: '/login',
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-  },
+    title: 'courses',
+    path: '/dashboard/courses',
+  }
 ];
 
 function useResponsive(query, start, end) {
@@ -63,11 +47,7 @@ function useResponsive(query, start, end) {
 }
 
 
-const account = {
-  displayName: 'Jaydon Frankie',
-  email: 'demo@minimals.cc',
-  photoURL: '/assets/images/avatars/avatar_default.jpg',
-};
+
 
 
 const NAV_WIDTH = 280;
@@ -106,7 +86,7 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Box sx={{ px:8 , py: 3, display: 'inline-flex' }}>
-        <Typography variant="button">Oasis</Typography>
+        <Typography variant="button">Fetlla</Typography>
       </Box>
 
       <NavSection data={navConfig} />

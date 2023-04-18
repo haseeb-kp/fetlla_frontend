@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import { Box, Stack, AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { forwardRef } from 'react';
 import AccountPopover from './AccountPopover';
 import { Icon } from '@iconify/react';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { setMode } from '../../../Redux/State'
+import { useDispatch, useSelector } from 'react-redux';
+import Brightness4OutlinedIcon from '@mui/icons-material/Brightness4Outlined';
 
 function bgBlur(props) {
   const color = props?.color || '#000000';
@@ -77,6 +81,9 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
+  const user = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
   return (
     <StyledRoot>
       <StyledToolbar>
@@ -91,9 +98,10 @@ export default function Header({ onOpenNav }) {
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
 
-        {/* <Searchbar /> */}
         <Box sx={{ flexGrow: 1 }} />
+        <Brightness4OutlinedIcon sx={{marginRight:'2rem'}} onClick={() => dispatch(setMode())} color='warning' />
 
+          <Typography variant='subtitle2'sx={{marginRight:'1rem', color:'grey'}}>Hi, {user.user.name}</Typography>
         <Stack
           direction="row"
           alignItems="center"
@@ -102,7 +110,6 @@ export default function Header({ onOpenNav }) {
             sm: 1,
           }}
         >
-          
           <AccountPopover />
         </Stack>
       </StyledToolbar>

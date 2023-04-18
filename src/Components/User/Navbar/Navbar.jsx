@@ -12,6 +12,9 @@ const StyledLink = styled(Link)({
 const Navbar = () => {
 
   const navigate = useNavigate();
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
 
 
 //   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -58,7 +61,7 @@ const Navbar = () => {
                 variant="outlined"
                 color="inherit"
                 sx={{ textTransform: "none" }}
-                to='/login'
+                onClick={handleLoginClick}
               >
                 <AccountCircle sx={{ mr: 1 }} />
                 Login

@@ -3,9 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -15,25 +12,20 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { ToastContainer, toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import "react-toastify/dist/ReactToastify.css";
-import { CircularProgress } from "@mui/material";
+import { setLogin } from "../../../Redux/State";
+import axios from '../../../utils/axios';
+import { loginPost } from '../../../utils/Constants';
 
 const theme = createTheme();
 const ErrorText = styled(Typography)({
   color: "red",
 });
 
-const StyledCircularProgress = styled(CircularProgress)({
-  color: "white",
-  height: "10px",
-  width: "10px",
-  margin: "auto",
-  display: "block",
-});
+
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -53,7 +45,27 @@ export default function Login() {
     },
     validationSchema,
     onSubmit: async (values) => {
-    //   await dispatch(login(values.email, values.password));
+            axios
+            .post(loginPost, values, {
+                headers: { "Content-Type": "application/json" },
+            })
+            .then((response) => {
+                dispatch(
+                    setLogin({
+                        user: response.data,
+                        token: response.data.token,
+                    })
+                );
+                navigate('/dashboard');
+            })
+            .catch((err) => {
+              ((error) => {
+                  console.log(error.response.data.detail);
+                    toast.error(error.response.data.detail, {
+                        position: "top-center",
+                    });
+                })(err);
+            });
     },
   });
 
@@ -113,7 +125,7 @@ export default function Login() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              {/* {loading ? <StyledCircularProgress /> : "Sign in"} */}
+              sign in
             </Button>
             <Grid container>
               <Grid item xs></Grid>
