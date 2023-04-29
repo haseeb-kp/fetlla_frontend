@@ -5,11 +5,16 @@ import { useSelector } from "react-redux";
 import { StyledRoot, Main } from "./Styles";
 import Header from "../../Components/DashboardLayout/Header";
 import Nav from "../../Components/DashboardLayout/Nav";
-import Login from "../../Pages/User/Login/Login";
-import HomePage from "../../Pages/User/Home/HomePage";
+import AdminLogin from "../../Pages/Admin/AdminLogin";
 
-const User = () => {
-  const currentUser = useSelector((state) => Boolean(state.token));
+import UserList from "../../Pages/Admin/UserList";
+import AdminDashboard from "../../Pages/Admin/AdminDashboard";
+import UserDetails from "../../Pages/Admin/UserDetails";
+import AssignCourse from "../../Pages/Admin/AssignCourse";
+
+const Admin = () => {
+  const user = useSelector((state) => (state.user));
+  const isSuperuser = user && user.user.is_superuser;
   const mode = useSelector((state) => state.mode);
 
   const darkTheme = createTheme({
@@ -38,8 +43,8 @@ const User = () => {
   };
 
   const ProtectedRoute = ({ children }) => {
-    if (!currentUser) {
-      return <Navigate to="/login" />;
+    if (!isSuperuser) {
+      return <Navigate to="/admin/login" />;
     }
 
     return children;
@@ -48,27 +53,25 @@ const User = () => {
   return (
     <Routes>
       <Route
-        path="/"
-        element={<HomePage />}
-      />
-      <Route
         path="/login"
-        element={currentUser ? <Navigate to="/dashboard" /> : <Login />}
+        element={isSuperuser ? <Navigate to="/admin/dashboard" /> : <AdminLogin />}
       />
 
       <Route
-        path="/dashboard"
+        path="/"
         element={
           <ProtectedRoute>
             <Layout />
           </ProtectedRoute>
         }
       >
-        {/* <Route path="/" element={<Home />} /> */}
-        {/* <Route path="/profile/:id" element={<Profile />} /> */}
+        <Route path="/dashboard" element={<AdminDashboard />} />
+        <Route path="/users" element={<UserList />} />
+        <Route path="/user_details/:id" element={<UserDetails />} />
+        <Route path="/assign_courses" element={<AssignCourse />} />
       </Route>
     </Routes>
   );
 };
 
-export default User;
+export default Admin;

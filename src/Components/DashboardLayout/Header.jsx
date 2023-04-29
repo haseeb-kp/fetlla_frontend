@@ -2,13 +2,12 @@ import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import { forwardRef } from 'react';
 import AccountPopover from './AccountPopover';
-import { Icon } from '@iconify/react';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { setMode } from '../../../Redux/State'
+import { setMode } from '../../Redux/State'
 import { useDispatch, useSelector } from 'react-redux';
 import Brightness4OutlinedIcon from '@mui/icons-material/Brightness4Outlined';
+import Iconify from '../Iconify/Iconify';
 
 function bgBlur(props) {
   const color = props?.color || '#000000';
@@ -42,15 +41,7 @@ function bgBlur(props) {
   };
 }
 
-const Iconify = forwardRef(({ icon, width = 20, sx, ...other }, ref) => (
-  <Box ref={ref} component={Icon} icon={icon} sx={{ width, height: width, ...sx }} {...other} />
-));
 
-Iconify.propTypes = {
-  sx: PropTypes.object,
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  icon: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-};
 
 
 const NAV_WIDTH = 280;

@@ -3,7 +3,7 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setLogout } from '../../../Redux/State';
+import { setLogout } from '../../Redux/State';
 
 const MENU_OPTIONS = [
   
