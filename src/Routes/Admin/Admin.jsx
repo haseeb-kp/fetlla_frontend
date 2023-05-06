@@ -11,6 +11,7 @@ import UserList from "../../Pages/Admin/UserList";
 import AdminDashboard from "../../Pages/Admin/AdminDashboard";
 import UserDetails from "../../Pages/Admin/UserDetails";
 import AssignCourse from "../../Pages/Admin/AssignCourse";
+import AddMember from "../../Pages/Admin/AddMember";
 
 const Admin = () => {
   const user = useSelector((state) => (state.user));
@@ -69,6 +70,7 @@ const Admin = () => {
         <Route path="/users" element={<UserList />} />
         <Route path="/user_details/:id" element={<UserDetails />} />
         <Route path="/assign_courses" element={<AssignCourse />} />
+        <Route path="/add_member" element={<AddMember />} />
       </Route>
     </Routes>
   );

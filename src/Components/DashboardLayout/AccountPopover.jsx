@@ -16,6 +16,7 @@ const MENU_OPTIONS = [
 
 
 export default function AccountPopover() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
@@ -80,6 +81,9 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
+        <MenuItem  sx={{ m: 1 }} onClick={() => navigate('/change_password')}>
+          change password
+        </MenuItem>
         <MenuItem  sx={{ m: 1 }} onClick={() => dispatch(setLogout())}>
           Logout
         </MenuItem>

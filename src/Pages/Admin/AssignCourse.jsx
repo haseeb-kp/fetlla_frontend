@@ -9,6 +9,15 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { Autocomplete, Button, Paper, Typography } from "@mui/material";
 import { TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from '../../utils/axios'
+import { allUsers } from "../../utils/Constants";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 
 
 
@@ -25,14 +34,42 @@ const validationSchema = Yup.object().shape({
   user: Yup.object().required("Required"),
 });
 
-const userOptions = [
-  { label: "Alice", value: "alice" },
-  { label: "Bob", value: "bob" },
-  { label: "Charlie", value: "charlie" },
-];
+
 
 const AssignCourse = () => {
+  const token = useSelector((state) => state.token);
+  const [userList, setUserList] = useState([]);
+  const getUserList = async () => {
+    try {
+      const response = await axios.get(allUsers, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response && response.data && Array.isArray(response.data)) {
+        setUserList(response.data);
+      } else {
+        console.log("Invalid response:", response);
+      }
+    } catch (error) {
+      toast.error(error)
+    }
+  };
+
+  useEffect(() => {
+    getUserList();
+  }, []);
+
+  const userOptions = userList.map((user) => ({
+    label: user.name,
+    value: user.id,
+  }));
+
   return (
+      <>
+      <ToastContainer />
     <Paper variant="outlined" sx={{ textAlign: "center", padding: "1rem" }}>
       <Typography variant="h6" sx={{ marginBottom: "3rem" }}>
         Assign Course
@@ -44,8 +81,31 @@ const AssignCourse = () => {
           user: null,
         }}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
-          console.log(values);
+        onSubmit={async (values, { setSubmitting }) => {
+          try {
+            const response = await axios.post("admin/add_course/", {
+              course_name: values.courseName,
+              expires_on: values.expiresOn,
+              user: values.user.value,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            },);
+      
+            if (response.status === 201) {
+              toast.success("Success");
+            } else {
+              toast.error("Error");
+            }
+          } catch (error) {
+            console.log("Error:", error);
+            // toast.error("Error");
+          } finally {
+            setSubmitting(false);
+          }
         }}
       >
         {({ values, errors, touched, setFieldValue }) => (
@@ -63,6 +123,7 @@ const AssignCourse = () => {
                   label="User"
                   error={touched.user && Boolean(errors.user)}
                   helperText={touched.user && errors.user}
+                  style={{ width: 250 }}
                 />
               )}
               as={Autocomplete}
@@ -85,6 +146,7 @@ const AssignCourse = () => {
                 error={touched.expiresOn && Boolean(errors.expiresOn)}
                 helperText={touched.expiresOn && errors.expiresOn}
                 renderInput={(params) => <TextField {...params} />}
+                format="dd-MM-yyyy"
               />
             </LocalizationProvider>
 
@@ -95,6 +157,7 @@ const AssignCourse = () => {
         )}
       </Formik>
     </Paper>
+    </>
   );
 };
 

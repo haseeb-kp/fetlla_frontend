@@ -33,7 +33,26 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const AssignedCoursesTable = () => {
-  const rows = [];
+  const { id } = useParams();
+  const [rows, setRows] = useState([]);
+  const token = useSelector((state) => state.token);
+
+  const getPendingCourses = async () => {
+    try {
+      const response = await axios.get(`admin/pending_courses/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response && response.data && Array.isArray(response.data)) {
+        setRows(response.data);
+      }
+    } catch (err) {}
+  };
+  useEffect(() => {
+    getPendingCourses();
+  }, [id]);
   return (
     <TableContainer component={Paper} sx={{ marginTop: "1rem" }}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -52,8 +71,14 @@ const AssignedCoursesTable = () => {
               <StyledTableCell component="th" scope="row">
                 {row.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.assigned_on}</StyledTableCell>
-              <StyledTableCell align="right">{row.ends_on}</StyledTableCell>
+              <StyledTableCell align="right">
+                {new Date(row.assigned_on).toLocaleDateString()}
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                {new Date(row.expiry_date).toLocaleDateString()}
+              </StyledTableCell>
+              <StyledTableCell align="right"></StyledTableCell>
+              <StyledTableCell align="right"></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -39,7 +39,7 @@ const CompletedCoursesTable = () => {
 
   const getCompletedCourses = async () => {
     try {
-      const response = await axios.get(`admin/completed_courses/${id}`, {
+      const response = await axios.get(`user/completed_courses`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ const CompletedCoursesTable = () => {
     getCompletedCourses();
   }, [id]);
   return (
-    <TableContainer component={Paper} sx={{ marginTop: "1rem" }}>
+    <TableContainer component={Paper} >
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>

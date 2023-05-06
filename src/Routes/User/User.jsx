@@ -7,6 +7,7 @@ import Header from "../../Components/DashboardLayout/Header";
 import Nav from "../../Components/DashboardLayout/Nav";
 import Login from "../../Pages/User/Login/Login";
 import HomePage from "../../Pages/User/Home/HomePage";
+import UserCourses from "../../Pages/User/Courses/UserCourses";
 
 const User = () => {
   const currentUser = useSelector((state) => Boolean(state.token));
@@ -64,7 +65,7 @@ const User = () => {
           </ProtectedRoute>
         }
       >
-        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/dashboard/courses" element={<UserCourses />} />
         {/* <Route path="/profile/:id" element={<Profile />} /> */}
       </Route>
     </Routes>
